@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% block title %}GraphAlgoriThmVisU - Home{% endblock title %}
+{% load static %}
+{% comment %} <link rel="stylesheet" href="{%  static 'css/home.css' %}"> {% endcomment %}
+
+{% block GAVmoduleactive %} active {% endblock GAVmoduleactive %}
+
+{% block body %}
+{% load static %}
+ <!-- Tabs navs -->
+ <div class="container" style="margin-top:85px;">
+ <ul class="nav nav-tabs nav-justified" id="tabs" role="tablist">
+  <li class="nav-item mx-2" role="presentation">
+    <a
+      class="nav-link active"
+      id="path-finder"
+      data-toggle="tab"
+      href="#path-finder-tab"
+      role="tab"
+      aria-controls="ex3-tabs-1"
+      aria-selected="true"
+      >Path finding Algorithms</a
+    >
+  </li>
+
+  <!-- Tab Finished following are just sake of support for the grid operation-->
+
+    <li class="nav-item" role="presentation" style="display: none;">
+      <!--Minimum ST-->
+      <a
+        class="nav-link"
+        id="minimum-spanning-tree"
+        data-toggle="tab"
+        href="#minimum-spanning-tree-tab"
+        role="tab"
+        aria-controls="ex3-tabs-2"
+        aria-selected="false"
+        ></a
+      >
+    </li>
+   
+    <li class="nav-item mx-2" role="presentation" style="display: none;">
+      <!--Topology ST-->
+
+      <a
+        class="nav-link"
+        id="topological-sort"
+        data-toggle="tab"
+        href="#topological-sort-tab"
+        role="tab"
+        aria-controls="ex3-tabs-3"
+        aria-selected="false"
+        ></a
+      > 
+    </li>
+  </ul>
+  <!-- Tabs navs -->
+
+  <!-- Tabs content -->
+  <div class="tab-content mt-4" id="ex2-content">
+    <div
+      class="tab-pane fade show active"
+      id="path-finder-tab"
+      role="tabpanel"
+      aria-labelledby="ex3-tab-1"
+    >
+      <header>
+          <nav class="buttons-container navbar navbar-expand-lg navbar-dark bg-dark">
+          <!-- Container wrapper -->
+          <div class="container-fluid">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" >Path-Finding Algorithms</a>
+            <!-- Toggle button -->
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon" id="breakpoint-toggler"></span>
+            </button>
+
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <!-- Left links -->
+              <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <!-- <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li> -->
+                <!-- Navbar dropdown -->
+                <div class="btn-group shadow-5">
+                  <button
+                    type="button"
+                    class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
+                    data-ripple-color="dark"
+                    id="path-finding-grp-btn"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Path Finding Algorithms
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="dfs">DFS</a></li>
+                    <li><a class="dropdown-item" id="bfs">BFS</a></li>
+                    <li><a class="dropdown-item" id="dijkstra">Dijkstra (UCS)</a></li>
+                    <li><a class="dropdown-item" id="astar">A* (Manhattan Distance)</a></li>
+                 <li><a class="dropdown-item" id="bidirectional-bfs" style="display: none;">Bidirectional BFS</a></li>
+                    <li><a class="dropdown-item" id="bidirectional-dijkstra" style="display: none;">Bidirectional Dijkstra (UCS)</a></li>
+                    <!-- <li><hr class="dropdown-divider" /></li> -->
+                  <li><a class="dropdown-item" id="greedybest" style="display: none;">Greedy Best-first (Manhattan Distance)</a></li>
+                    <li><a class="dropdown-item" id="bidirectional-astar" style="display: none;">Bidirectional A*</a></li>
+                    <li><a class="dropdown-item" id="bidirectional-greedy-bfs" style="display: none;">Bidirectional Greedy Best-first</a></li>
+                  </ul>
+                </div>
+                <div class="btn-group shadow-0">
+                  <button
+                    type="button"
+                    class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
+                    data-toggle="dropdown"
+                    id="maze-generation-grp-btn"
+                    aria-expanded="false"
+                  >
+                    Random Maze Generation Algorithms
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="maze-recursive-backtracker">Recursive Backtracker (real-time)</a></li>
+                    <li><a class="dropdown-item" id="maze-prim">Prim's Algorithm (real-time)</a></li>
+                    <!-- <li><hr class="dropdown-divider" /></li> -->
+                    <li><a class="dropdown-item" id="maze-animation-recursive-backtracker">Animated Recurisve Backtracker</a></li>
+                    <li><a class="dropdown-item" id="maze-prim-animation">Animated Prim's Algorithm</a></li>
+                  </ul>
+                </div>
+                <li class="nav-item" >
+                  <button
+                    disabled
+                    type="button"
+                    class="btn btn-outline-danger mr-2 ml-1 mt-2"
+                    data-ripple-color="light"
+                    id="visualize"
+                    >
+                      Visualize
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button id="clear-path" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
+                      Clear Path
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button id="clear" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
+                      Clear All
+                  </button>
+                </li>
+       
+
+                <li class="nav-item">
+                  <label class="text-warning" for="grid-size">  Node Size: </label>
+                  <input name="grid-size" type="range" class="form-range" id="size-slider" value="28" min="19" max="90"  />
+                </li>
+              </ul>
+            </div>
+            <!-- Collapsible wrapper -->
+          </div>
+          <!-- Container wrapper -->
+          </nav>
+        </header>
+        <main>
+          <section id="grid-container">
+          </section>
+        </main>
+    </div> 
+  </div>
+
+
+  <!-- Alert and Toast Section-->
+
+  <div id="shortcut-toast" class="toast bg-info text-white" role="alert" aria-live="assertive"
+aria-atomic="true" data-autohide="false" data-content="11000">
+    <div class="toast-header bg-info text-white">
+      <i class="fas fa-info-circle fa-lg mr-2"></i>
+      <strong class="mr-auto">Path-Finder</strong>
+   <!-- <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast"
+        aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button> -->
+    <div class="toast-body">
+      <b><u>Click/Hover</u></b> on icons to see <u><b>Shortcuts</u></b>
+    </div>
+  </div>
+
+  
+  <div id="fail-kahn-toast" class="toast bg-danger text-white" role="alert" aria-live="assertive"
+aria-atomic="true" data-autohide="false">
+    <div class="toast-header bg-danger text-white">
+      <i class="fas fa-exclamation-triangle fa-lg mr-2"></i>
+      <strong class="mr-auto">Topological Sort</strong>
+      <!-- <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast"
+        aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button> -->
+    </div>
+    <div class="toast-body">
+      <b>Failed</b> to do <em>Topological Sort</em>, there exists a <b><u>Cycle</b></u>.
+    </div>
+  </div> 
+  <div id="prim-toast" class="toast bg-info text-white" role="alert" aria-live="assertive"
+aria-atomic="true" data-autohide="false" data-content="11000">
+    <div class="toast-header bg-info text-white">
+      <i class="fas fa-info-circle fa-lg mr-2"></i>
+      <strong class="mr-auto">Minimum-Spanning Tree</strong>
+      <!-- <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast"
+        aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button> -->
+    </div>
+    <div class="toast-body">
+      Uses <b><u>Prim's Algorithm</u></b> for MST and <u><em><b>Euclidean Distance</b></em></u> for <b>weights</b>
+    </div>
+  </div>
+  <div id="info-toast" class="toast bg-success text-white" role="alert" aria-live="assertive"
+aria-atomic="true" data-autohide="false">
+    <div class="toast-header bg-success text-white">
+      <i class="fas fa-info-circle fa-lg mr-2"></i>
+      <strong class="mr-auto">Path-Finder</strong>
+      <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast"
+        aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      You can <b><u>Drag</u></b> <b>Start</b> or <b>End</b> to see how path is affected in realtime
+    </div>
+  </div>
+  <!-- Danger toast -->
+  <div id="fail-toast" class="toast bg-danger text-white" data-autohide="false" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-danger text-white">
+      <i class="fas fa-exclamation-triangle fa-lg mr-2"></i>
+      <strong class="mr-auto">Path-Finder</strong>
+      <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="toast-body">
+      Sorry, I wasn't able to find End Node
+    </div>
+  </div>
+   </div>
+</div>
+
+{% endblock body %}
+
