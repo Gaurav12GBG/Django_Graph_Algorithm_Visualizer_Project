@@ -29,3 +29,5 @@ def docpostfe(request, id):
  
     # obj=Item.objects.all()
     return render(request,"docpostfe.html", context)
+
+

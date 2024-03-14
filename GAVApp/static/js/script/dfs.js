@@ -1,81 +1,85 @@
-function dfs(grid,start,end,s,parentMap,choices,prev = null)
-{
-  let curr = null;
-  if(s.length){
-    curr = s.pop();
-    let div = curr.divReference;
-    if(parentMap.has(curr)){
-      div.classList.add("node-backtrack");
-      setTimeout(dfs,15,grid,start,end,s,parentMap,choices,curr);
-      return;
+var Data;
+var visited = [];
+var spotted = false
+
+//Implementing BFS Traversal
+export default function DepthFirstSearch(arrayData,startNode,endNode,SPEED){
+
+    Data = new Array(2);
+    Data = arrayData;
+    visited = [];
+    //console.log(Data[0][0]);
+    let found = false;
+
+    for (let i = 0; i < Data.length; i++) {
+        for (let j = 0; j < Data.length; j++) {
+            if(Data[i][j].id==startNode){
+                startNode = Data[i][j];
+                found = true;
+                break;
+            }
+            if(found){
+                break;
+            }
+        }
     }
-    curr.divReference.classList.add("node-current");
-    setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
-    parentMap.set(curr,prev);
-    if(curr === end)
-    {
-      executeDrawPath(parentMap,curr);
-      return;
+    //console.log(startNode)
+    graphTraversal(startNode,endNode);
+    dfsanimate(visited,endNode,SPEED);
+}
+//Recursion
+function graphTraversal(node,stop){
+    //console.log(node);
+    if(spotted){
+        //pass
+    }else{
+        node.visited = true;
+        visited.push(node.id);
+        for (let i = 0; i < node.neighbors.length; i++) {
+            if(!node.neighbors[i].visited){
+                graphTraversal(node.neighbors[i]);
+            }  
+        }
+        if(node==stop){
+            spotted = true;
+        }
     }
-    for(let i = 0 ; i < choices.length ; ++i)
-    {
-      let row = curr.row + choices[i][0];
-      let col = curr.col + choices[i][1];
-      if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
-        s.push(grid[row][col]);
-        let childDiv = grid[row][col].divReference;
-      }
-    }
-    setTimeout(dfs,10,grid,start,end,s,parentMap,choices,curr);
-  }else{
-    document.querySelector("#clear").disabled = false;
-    document.querySelector("#clear-path").disabled = false;
-    document.querySelector("#size-slider").disabled = false;
-  document.querySelector("#path-finding-grp-btn").disabled = false;
-  document.querySelector("#maze-generation-grp-btn").disabled = false;
-    let toastTriggerEl = document.getElementById('fail-toast')
-    let toast = new mdb.Toast(toastTriggerEl)
-    toast.show()
-    return;
-  }
 }
 
-function dfsRT(grid, start, end){
-  let curr = start;
-  let s = [];
-  let parentMap = new Map();
-  parentMap.set(curr,null);
-  let choices = [[-1,0],[1,0],[0,1],[0,-1]];
-  s.push(curr);
-  let visited = new Set();
-  while(s.length){
-    curr = s.pop();
-    if(visited.has(curr)){
-      continue;
+//Animate
+function dfsanimate(data,stop,speed){
+    //console.log(data);
+    //console.log(stop);
+    let notfound = true;
+
+    for (var i = 1; i < data.length; i++) {
+        let x = data[i];
+        if(x!=stop){
+            setTimeout(function(){
+                $("#"+x).addClass("animate");
+                //console.log(x);
+            },(i+1)*20*speed);
+        }else{
+            notfound = false;
+            setTimeout(function(){
+                alert("Element Found! \nNode visited after searching "+(i-1)+" nodes.");
+                $("#wall").removeAttr('disabled');
+                $("#clear").removeAttr('disabled');
+                $("#size").removeAttr('disabled');
+                $("#speed").removeAttr('disabled');
+                $("#start").removeAttr('disabled');
+            },(i+3)*20*speed);
+            break
+        }
     }
-    if(curr === end){
-      let path = getPath(parentMap,curr);
-      drawPathRT(path);
-      return;
+    if(notfound){
+        setTimeout(function(){
+            alert("Element cannot be found!");
+            $("#wall").removeAttr('disabled');
+            $("#clear").removeAttr('disabled');
+            $("#size").removeAttr('disabled');
+            $("#speed").removeAttr('disabled');
+            $("#start").removeAttr('disabled');
+        },(i+3)*20*speed);
     }
-    curr.divReference.classList.add("node-check-rt")
-    visited.add(curr);
-    for(let i = 0 ; i < choices.length ; ++i){
-      let row = curr.row + choices[i][0];
-      let col = curr.col + choices[i][1];
-      if(grid[row] && grid[row][col] && !grid[row][col].isWall && !visited.has(grid[row][col])){
-        s.push(grid[row][col]);
-        parentMap.set(grid[row][col],curr);
-      }
-    }
-  }
-    document.querySelector("#clear").disabled = false;
-    document.querySelector("#clear-path").disabled = false;
-    document.querySelector("#size-slider").disabled = false;
-  document.querySelector("#path-finding-grp-btn").disabled = false;
-  document.querySelector("#maze-generation-grp-btn").disabled = false;
-    let toastTriggerEl = document.getElementById('fail-toast')
-    let toast = new mdb.Toast(toastTriggerEl)
-    toast.show()
-    return;
 }

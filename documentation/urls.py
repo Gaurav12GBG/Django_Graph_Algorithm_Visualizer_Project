@@ -26,8 +26,5 @@ admin.site.index_title = "Welcome GraphAlgoriThmVisU Admin Panel"
 urlpatterns = [
     path('', views.index, name="index"),
     path('docpostfe/<int:id>', views.docpostfe, name="docpostfe"),
-    # path('search', views.search, name='search'),
-    
-
 ] 
 

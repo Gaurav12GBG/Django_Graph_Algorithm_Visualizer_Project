@@ -1,107 +1,164 @@
-function astar(grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choices){
-    let curr = null;
-    if(minHeap.length){
-      minHeap.sort((a,b) => (distanceMap.get(b) + hMap.get(b)) - (distanceMap.get(a) + hMap.get(a)));
-      curr = minHeap.pop();
-      let div = curr.divReference;
-      if(processed.has(curr)){
-        div.classList.add("node-backtrack");
-        setTimeout(astar,10,grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choices);
-        return;
-      }
-      div.classList.add("node-current");
-      setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check");},1000)
-      if(curr === end){                                                    
-        executeDrawPath(parentMap,curr);
-        return;
-      }
-      processed.add(curr);
-      for(let i = 0 ; i < choices.length ; ++i){
-        let row = curr.row + choices[i][0];
-        let col = curr.col + choices[i][1];
-        if(grid[row] && grid[row][col] && !grid[row][col].isWall && !processed.has(grid[row][col])){
-          let currDistance = distanceMap.get(curr);
-          let edgeDistance = !grid[row][col].Weight ? 1 : grid[row][col].weight;
-          let newDistance = currDistance + edgeDistance;
-          if(newDistance < distanceMap.get(grid[row][col])){
-            parentMap.set(grid[row][col],curr);
-            distanceMap.set(grid[row][col],newDistance);
-          }
-          minHeap.push(grid[row][col]);
+var Data;
+var Queue = [];
+var visited = [];
+var found = false;
+var totalPath = [];
+
+//Implementing Dijkstra Visualization
+export default function Astar(arrayData,startNode,endNode,SPEED){
+
+    //Initialization
+    Data = new Array(2);
+    Data = arrayData;
+    Queue = [];
+    visited = [];
+    found = false;
+    totalPath = [];
+
+    //console.log(Data[0][0]);
+    let f1,f2 = false;
+
+    for (let i = 0; i < Data.length; i++) {
+        for (let j = 0; j < Data.length; j++) {
+            if(Data[i][j].id==startNode){
+                startNode = Data[i][j];
+                f1=true;
+            }
+            if(Data[i][j].id==endNode){
+                endNode = Data[i][j];
+                f2 = true;
+            }
         }
-      }
-    setTimeout(astar,10,grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choices);
+        if(f1 && f2){
+            break;
+        }
+    }
+
+    //Calculating Heuristic
+    calculateHeuristic(Data, startNode, endNode)
+    //console.log(Data);
+
+    //Astar
+    Astarcode(Data,startNode,endNode, totalPath, visited);
+    //console.log(Data);
+    //console.log(visited);
+    //console.log(totalPath);
+    for (var i = 0; i < visited.length; i++) {
+        let x = visited[i];
+        //console.log(x+"==="+stop);
+        if(x!=endNode.id){
+            setTimeout(function(){
+                $("#"+x).addClass("animate");
+            },(i+1)*20*SPEED);
+        }
+    }
+    if(!found){
+        setTimeout(function(){
+            alert("Not Found");
+            $("#wall").removeAttr('disabled');
+            $("#clear").removeAttr('disabled');
+            $("#size").removeAttr('disabled');
+            $("#speed").removeAttr('disabled');
+            $("#start").removeAttr('disabled');
+        },(i+2)*20*SPEED);
     }else{
-      document.querySelector("#clear").disabled = false;
-      document.querySelector("#clear-path").disabled = false;
-      document.querySelector("#size-slider").disabled = false;
-    document.querySelector("#path-finding-grp-btn").disabled = false;
-    document.querySelector("#maze-generation-grp-btn").disabled = false;
-      let toastTriggerEl = document.getElementById('fail-toast')
-      let toast = new mdb.Toast(toastTriggerEl)
-      toast.show()
-      return;
+        AstarPath(totalPath,i,visited.length,SPEED);
     }
-  }
-  function astarRT(grid, start, end){
-    if(!grid || !start || !end){
-      return;
+
+}
+
+//Trace Path
+function tracePath(prevSource, currentNode, startNode, totalPath, Data){
+    let val = currentNode;
+    while(val.source != startNode.id){
+        totalPath.push(val.source);
+        val = val.neighbors.filter(item => item.id == val.source)
+        val = val[0];
     }
-    let parentMap = new Map();
-    let distanceMap = new Map();
-    let hMap = new Map();
-    let processed = new Set();
-    let minHeap = [];
-    let choices = [[-1,0],[1,0],[0,1],[0,-1]];
-    let curr = start;
-    minHeap.push(curr);
-    let h = 0;
-    for(let i = 0 ; i < grid.length ; ++i){
-      for(let j = 0 ; j < grid[i].length ; ++j){
-        distanceMap.set(grid[i][j],Infinity);
-        h = Math.abs(grid[i][j].row - end.row) + Math.abs(grid[i][j].col - end.col);
-        hMap.set(grid[i][j],h);
-      }
-    }
-    distanceMap.set(curr, 0);
-    parentMap.set(curr, null);
-    while(minHeap.length){
-      minHeap.sort((a,b) => (distanceMap.get(b) + hMap.get(b)) - (distanceMap.get(a) + hMap.get(a)));
-      curr = minHeap.pop();
-      if(processed.has(curr)){
-        continue;
-      }
-      let div = curr.divReference;
-      div.classList.add("node-check-rt");
-      if(curr === end){                                           
-        let path = getPath(parentMap,curr);
-        drawPathRT(path);
-        return;
-      }
-      processed.add(curr);
-      for(let i = 0 ; i < choices.length ; ++i){
-        let row = curr.row + choices[i][0];
-        let col = curr.col + choices[i][1];
-        if(grid[row] && grid[row][col] && !grid[row][col].isWall && !processed.has(grid[row][col])){
-          let currDistance = distanceMap.get(curr);
-          let neighbourDistance = !grid[row][col].weight ? 1 : grid[row][col].weight
-          let newDistance = currDistance + neighbourDistance;
-          if(newDistance < distanceMap.get(grid[row][col])){
-            distanceMap.set(grid[row][col], newDistance);
-            parentMap.set(grid[row][col], curr);
-          }
-          minHeap.push(grid[row][col]);
+    //console.log(totalPath);
+}
+
+//Calculate Heuristic
+function calculateHeuristic(Data, startNode, endNode){
+    //console.log(startNode.i+","+startNode.j);
+    //console.log(endNode.i+","+endNode.j);
+    for (let i = 0; i < Data.length; i++) {
+        for (let j = 0; j < Data.length; j++) {
+           Data[i][j].heuristic = Math.abs(Data[i][j].i-endNode.i) + Math.abs(Data[i][j].j-endNode.j);
         }
-      }
-  
+        
     }
-      document.querySelector("#clear").disabled = false;
-      document.querySelector("#clear-path").disabled = false;
-      document.querySelector("#size-slider").disabled = false;
-    document.querySelector("#path-finding-grp-btn").disabled = false;
-    document.querySelector("#maze-generation-grp-btn").disabled = false;
-      let toastTriggerEl = document.getElementById('fail-toast')
-      let toast = new mdb.Toast(toastTriggerEl)
-      toast.show()
-  }
-  
+}
+
+function Astarcode(Data, startNode, endNode, totalPath, visited){
+
+    //Astar
+    //Setting Starting Node distance to 0
+    startNode.distance = 0;
+
+    //Pushing startNode to the Queue
+    Queue.push(startNode);
+
+    while(Queue.length!=0){
+        //console.log(Queue);
+        //Calculating minimum f-score
+        var current;
+        var min = Infinity;
+        for (let i = 0; i < Queue.length; i++) {
+            if((Queue[i].distance + Queue[i].heuristic) < min){
+                min = Queue[i].distance + Queue[i].heuristic;
+                current = Queue[i]
+            }
+        }
+
+        //If element is finished
+        //console.log(current)
+        //console.log(endNode)
+        if(current === endNode){
+            found = true;
+            return tracePath(current.source, current, startNode, totalPath, Data);
+        }
+
+        //Popping the element current from the Queue
+        Queue = Queue.filter(item => item.id != current.id);
+        //console.log(current.neighbors);
+
+        for (let i = 0; i < current.neighbors.length; i++) {
+            var f = current.distance + 1 //Storing the distance
+            if(f < current.neighbors[i].distance){
+                current.neighbors[i].source = current.id;
+                current.neighbors[i].distance = f;
+                current.neighbors[i].function = current.neighbors[i].distance + current.neighbors[i].heuristic;
+                if(Queue.indexOf(current.neighbors[i]) == -1){
+                    Queue.push(current.neighbors[i]);
+                }
+                //Animate
+                visited.push(current.neighbors[i].id);
+            }
+
+        }
+        //console.log(visited);
+
+    }
+    return false;
+}
+
+function AstarPath(path, frames, nodes, speed){
+    for (var i = path.length-1; i >=0; i--) {
+        let x = path[i];
+        //console.log(x+"==="+stop);
+        setTimeout(function(){
+            $("#"+x).addClass("path");
+        },++frames*20*speed);
+    }
+
+    setTimeout(function(){
+        alert("Path Found\nDistance : "+path.length+"\nNode visited after searching "+(nodes)+" nodes.");
+        $("#wall").removeAttr('disabled');
+        $("#clear").removeAttr('disabled');
+        $("#size").removeAttr('disabled');
+        $("#speed").removeAttr('disabled');
+        $("#start").removeAttr('disabled');
+    },(++frames+2)*20*speed);
+
+}

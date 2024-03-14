@@ -1,90 +1,94 @@
-function bfs(grid, start, end, q, parentMap, choices)
-{
-  let size = 0;
-  let curr = null;
-  if(q.length){
-    size = q.length;
-    for(let i = 0 ; i < size ; ++i)
-    {
-      curr = q.shift();
-      if(curr.isWall){
-        continue;
-      }
-      curr.divReference.classList.add("node-current");
-      let div = curr.divReference;
-      setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
-      // curr.divReference.classList.add("node-check");
-      if(curr === end){
-        executeDrawPath(parentMap,curr);
-        return;
-      }
-      for(let j = 0 ; j < choices.length ; ++j){
-        let row = curr.row + choices[j][0];
-        let col = curr.col + choices[j][1];
-        if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
-          q.push(grid[row][col]);
-          let childDiv = grid[row][col].divReference;
-          // childDiv.classList.add("node-child");
-          // setTimeout(() => childDiv.classList.remove("node-child"), 10);
-          parentMap.set(grid[row][col],curr);
+var Data;
+var Queue = [];
+var visited = [];
+
+//Implementing BFS Traversal
+export default function BreadthFirstSearch(arrayData,startNode,endNode,SPEED){
+
+    Data = new Array(2);
+    Data = arrayData;
+    Queue = [];
+    visited = [];
+    //console.log(Data[0][0]);
+    let found = false;
+
+    for (let i = 0; i < Data.length; i++) {
+        for (let j = 0; j < Data.length; j++) {
+            if(Data[i][j].id==startNode){
+                startNode = Data[i][j];
+                found = true;
+                break;
+            }
+            if(found){
+                break;
+            }
         }
-      }
     }
-  setTimeout(bfs,30,nodes,startNode,endNode,q,parentMap,choices);
-  }else{
-    document.querySelector("#clear").disabled = false;
-    document.querySelector("#clear-path").disabled = false;
-    document.querySelector("#size-slider").disabled = false;
-  document.querySelector("#path-finding-grp-btn").disabled = false;
-  document.querySelector("#maze-generation-grp-btn").disabled = false;
-    let toastTriggerEl = document.getElementById('fail-toast')
-    let toast = new mdb.Toast(toastTriggerEl)
-    toast.show()
-    return;
-  }
+    //console.log(startNode)
+
+    Queue.push(startNode);
+    visited.push(startNode);
+    //console.log(Queue);
+    //console.log(visited);
+
+    while(Queue.length != 0){
+        let x = Queue.shift();
+        //console.log(x);
+        for (let i = 0; i < x.neighbors.length; i++) {
+            if (checkVisitedNode(x.neighbors[i])){
+                Queue.push(x.neighbors[i]);
+                visited.push(x.neighbors[i]);
+            }
+        }
+    }
+
+    bfsAnimate(visited,endNode,SPEED)
 }
 
-function bfsRT(grid, start, end)
-{
-  if(!grid || !start || !end){
-    return;
-  }
-  let curr = start;
-  let q = [];
-  let parentMap = new Map();
-  parentMap.set(curr,null);
-  q.push(curr);
-  let choices = [[-1,0],[1,0],[0,1],[0,-1]];
-  let size = 0;
-  while(q.length){
-    size = q.length;
-    for(let i = 0 ; i < size ; ++i){
-      curr = q.shift();
-      curr.divReference.classList.add("node-check-rt")
-      if(curr === end){
-        path = getPath(parentMap,curr);
-        drawPathRT(path);
-        return;
-      }
-      for(let j = 0 ; j < choices.length ; ++j){
-        let row = curr.row + choices[j][0];
-        let col = curr.col + choices[j][1];
-        if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
-          q.push(grid[row][col]);
-          parentMap.set(grid[row][col],curr);
-        }
-      }
-
+//Check Visited Node
+function checkVisitedNode(node){
+    for (let i = 0; i < visited.length; i++) {
+        if(node == visited[i]){
+            return false;
+        }   
     }
-  }
+    return true;
+}
 
-    document.querySelector("#clear").disabled = false;
-    document.querySelector("#clear-path").disabled = false;
-    document.querySelector("#size-slider").disabled = false;
-  document.querySelector("#path-finding-grp-btn").disabled = false;
-  document.querySelector("#maze-generation-grp-btn").disabled = false;
-    let toastTriggerEl = document.getElementById('fail-toast')
-    let toast = new mdb.Toast(toastTriggerEl)
-    toast.show()
-    return;
+//function Animate
+function bfsAnimate(data,stop,speed){
+    //console.log(data);
+    //console.log(stop);
+    let notfound = true;
+
+    for (var i = 1; i < data.length; i++) {
+        let x = data[i].id;
+        if(x!=stop){
+            setTimeout(function(){
+                $("#"+x).addClass("animate");
+                //console.log(x);
+            },(i+1)*20*speed);
+        }else{
+            notfound = false;
+            setTimeout(function(){
+                alert("Element Found! \nNode visited after searching "+(i-1)+" nodes.");
+                $("#wall").removeAttr('disabled');
+                $("#clear").removeAttr('disabled');
+                $("#size").removeAttr('disabled');
+                $("#speed").removeAttr('disabled');
+                $("#start").removeAttr('disabled');
+            },(i+3)*20*speed);
+            break
+        }
+    }
+    if(notfound){
+        setTimeout(function(){
+            alert("Element cannot be found!");
+            $("#wall").removeAttr('disabled');
+            $("#clear").removeAttr('disabled');
+            $("#size").removeAttr('disabled');
+            $("#speed").removeAttr('disabled');
+            $("#start").removeAttr('disabled');
+        },(i+3)*20*speed);
+    }
 }

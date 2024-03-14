@@ -26,6 +26,6 @@ admin.site.index_title = "Welcome GraphAlgoriThmVisU Admin Panel"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('GAVApp.urls')),
-    path('documentation/', include('documentation.urls')),
+    path('documentation/', include(('documentation.urls', 'documentation'), namespace='documentation')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

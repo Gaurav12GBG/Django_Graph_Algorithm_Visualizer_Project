@@ -15,53 +15,24 @@
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!--Icon Favicon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--Boostrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!--Jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   {% load static %}
-  <link rel="apple-touch-icon" sizes="57x57" href="{% static 'GAVApp/img/favicons/apple-icon-57x57.png' %}">
-  <link rel="apple-touch-icon" sizes="60x60" href="{% static 'GAVApp/img/favicons/apple-icon-60x60.png' %}">
-  <link rel="apple-touch-icon" sizes="72x72" href="{% static 'GAVApp/img/favicons/apple-icon-72x72.png' %}">
-  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'GAVApp/img/favicons/apple-icon-76x76.png' %}">
-  <link rel="apple-touch-icon" sizes="114x114" href="{% static 'GAVApp/img/favicons/apple-icon-114x114.png' %}">
-  <link rel="apple-touch-icon" sizes="120x120" href="{% static 'GAVApp/img/favicons/apple-icon-120x120.png' %}">
-  <link rel="apple-touch-icon" sizes="144x144" href="{% static 'GAVApp/img/favicons/apple-icon-144x144.png' %}">
-  <link rel="apple-touch-icon" sizes="152x152" href="{% static 'GAVApp/img/favicons/apple-icon-152x152.png' %}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'GAVApp/img/favicons/apple-icon-180x180.png' %}">
-  <link rel="icon" type="image/png" sizes="192x192"  href="{% static 'GAVApp/img/favicons/android-icon-192x192.png' %}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'GAVApp/img/favicons/favicon-32x32.png' %}">
-  <link rel="icon" type="image/png" sizes="96x96" href="{% static 'GAVApp/img/favicons/favicon-96x96.png' %}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'GAVApp/img/favicons/favicon-16x16.png' %}">
-  <link rel="manifest" href="{% static 'GAVApp/img/favicons/manifest.json' %}">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="{% static 'GAVApp/img/favicons/ms-icon-144x144.png' %}">
-  <meta name="theme-color" content="#ffffff">
-
-  <link rel="stylesheet" href="{%  static  'css/base.css'  %}">
-  <link rel="stylesheet" href="{%  static  'css/home.css'  %}">
-  <link rel="stylesheet" href="{%  static  'css/documentation.css'  %}">
-
-      
-  <link rel="stylesheet" type="text/css" href="{% static 'css/styles/style.css' %}"/>
-  <link rel="stylesheet" href="{% static 'css/styles/mdb.min.css' %}" />
-  <script defer type="text/javascript" src="{% static 'js/script/mdb.min.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/node.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/grid.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/bfs.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/dfs.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/dijkstra.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/astar.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/bidirectional.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/greedybest.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/primmazegenerator.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/recursivebacktracker.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/script/app.js' %}"></script>
-  <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
-  {% comment %} <script defer type="text/javascript" src="{% static 'js/script/network.js' %}"></script> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/styles/pathfinding.css' %}"/>
+  
 
   {% comment %} UI Javascript {% endcomment %}
   <script defer type="text/javascript" src="{% static 'js/UI/home.js' %}"></script>
-  <script defer type="text/javascript" src="{% static 'js/UI/documentation.js' %}"></script>
-
+  
   <title>{% block title %} {% endblock title %}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhai+2&display=swap');
@@ -74,6 +45,10 @@
       overflow-y: scroll;
       scroll-behavior: smooth;
     }
+
+    .focus:hover, .focus:active{
+      text-decoration: underline;
+    }
   {% block css %}{% endblock css %}
 
   </style>
@@ -84,7 +59,7 @@
   {% load static %}
 
   <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm top-0">
-    <a class="navbar-brand" href="/"><i class="fad fa-cogs mx-1"></i> Graph Algorithm visualizer</a>
+    <a class="navbar-brand" href="/"><i class="fad fa-cogs mx-1"></i><strong> Graph Algorithm Visualizer</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -93,22 +68,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto ">
         <li class="nav-item {% block homeactive %}  {% endblock homeactive %}">
-          <a class="nav-link" href="/"><i class="fas fa-home mx-1"></i>Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link focus" href="/"><i class="fas fa-home mx-1"></i>Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item {% block aboutactive %}  {% endblock aboutactive %}">
-          <a class="nav-link" href="/about"><i class="fas fa-id-card-alt mx-1"></i>About</a>
+          <a class="nav-link focus" href="/about"><i class="fas fa-id-card-alt mx-1"></i>About</a>
         </li>
          <li class="nav-item {% block documentationactive %}  {% endblock documentationactive %}">
-          <a class="nav-link" href="/documentation"><i class="fas fa-book mx-1"></i>Documentation</a>
+          <a class="nav-link focus" href="/documentation"><i class="fas fa-book mx-1"></i>Documentation</a>
         </li> 
          <li class="nav-item {% block GAVmoduleactive %}  {% endblock GAVmoduleactive %}">
-          <a class="nav-link" href="/GAVModule"><i class="fas fa-cogs mx-1"></i>Graph Algorithm visualizer App</a>
+          <a class="nav-link focus" href="/GAVModule"><i class="fas fa-cogs mx-1"></i>Graph Algorithm Visualizer App</a>
         </li> 
         <li class="nav-item {% block contactactive %}  {% endblock contactactive %} ">
-          <a class="nav-link" href="/contact"><i class="fas fa-user-circle mx-1"></i>Contact Us</a>
+          <a class="nav-link focus" href="/contact"><i class="fas fa-user-circle mx-1"></i>Contact Us</a>
         </li>
         <li class="nav-item {% block helpactive %}  {% endblock helpactive %} ">
-          <a class="nav-link" href="/help"><i class="fas fa-question mx-1"></i>Help</a>
+          <a class="nav-link focus" href="/help"><i class="fas fa-question mx-1"></i>Help</a>
         </li>
       </ul>
 
@@ -120,14 +95,14 @@
                 > Welcome, {{user}}
           </li>
           <li>
-            <a href="/profile"><button type="button" class="btn btn-success btn-md acc-btn">Profile</button></a>
-            <a href="/logout"><button type="button" class="btn btn-danger btn-md acc-btn">Logout</button></a>
+            <a href="/profile"><button type="button" class="btn btn-success btn-md acc-btn" style="background-image: linear-gradient(to top right, rgb(6 242 37), rgb(4, 41, 1));">Profile</button></a>
+            <a href="/logout"><button type="button" class="btn btn-danger btn-md acc-btn" style="background-image: linear-gradient(to top right, rgb(253 9 9), rgb(4, 41, 1)); color: #fff;">Logout</button></a>
           </li>
         </ul>
       </div>
       {% else %}
       <a href="/login1" class="btn mx-2 text-light" role="button" data-toggle="tooltip" data-placement="top"
-      title="Sign In" style="background-color:darkgreen;">Login <i class="fas fa-sign-in-alt"></i></a>
+      title="Sign In" style="background-image: linear-gradient(to top right, rgb(6 242 37), rgb(4, 41, 1));">Login <i class="fas fa-sign-in-alt"></i></a>
       {% endif %}
 
 
@@ -149,17 +124,17 @@
 
   <footer class="p-3 bg-white-low mt-5 shadow-2-strong">
     <ul class="nav justify-content-center pb-2">
-        <li class="nav-item"><a href="/" class="nav-link px-2
+        <li class="nav-item focus"><a href="/" class="nav-link px-2
                 text-dark">Home</a></li>
-        <li class="nav-item"><a href="/about" class="nav-link px-2
+        <li class="nav-item focus"><a href="/about" class="nav-link px-2
                 text-dark">about</a></li>
-                <li class="nav-item"><a href="/documentation" class="nav-link
+                <li class="nav-item focus"><a href="/documentation" class="nav-link
                   px-2 text-dark">Documentation</a></li>
-        <li class="nav-item"><a href="/GAVModule" class="nav-link
+        <li class="nav-item focus"><a href="/GAVModule" class="nav-link
                 px-2 text-dark">Graph Algorithm Visualizer App</a></li>
-        <li class="nav-item"><a href="/contact" class="nav-link
+        <li class="nav-item focus"><a href="/contact" class="nav-link
                 px-2 text-dark">Contact Us</a></li>
-                <li class="nav-item"><a href="/help" class="nav-link
+                <li class="nav-item focus"><a href="/help" class="nav-link
                   px-2 text-dark">Help</a></li>
     </ul>
     <hr class="shadow-1-strong">
@@ -183,6 +158,7 @@
     </div>
 </footer>
 
+<script type="module" src="{% static 'js/script/script.js' %}"></script>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->

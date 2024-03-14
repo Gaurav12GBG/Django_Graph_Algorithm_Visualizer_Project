@@ -73,7 +73,7 @@
                         safe and secured platform or web application. So, Connected with our system...!</p>
                 </div>
                 <div class="col-md-6">
-                    <h2 class="text-center mt-5" style="color:purple"><strong>Login</strong></h2>
+                    <h2 class="text-center mt-5 text-danger"><strong>Login</strong></h2>
                     <div class="col-md-9 form-group mx-auto">
                         {% for message in messages %}
                         <p class="text-{{message.tags}} text-center"><b>{{message}}</b></p>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="col-md-9 mx-auto form-group" style="margin-top:35px;">
                         <button class="btn mx-auto w-75 d-block"
-                            style="background-color:purple; color:white;"><strong>Log In</strong></button>
+                        style="background-image: linear-gradient(to top right, rgb(253 9 9), rgb(4, 41, 1)); color: #fff;"><strong>Log In</strong></button>
                     </div>
                     <div class="col-md-9 mx-auto" style="margin-top:25px;">
                         <p style="cursor:pointer;text-align:center;text-decoration:none;">Don't Have an
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-12" style="margin-top:10px;">
                         <p style="font:medium;cursor:pointer;text-align: center;text-decoration:none;"><a
-                                class="text-decoration-none" href="/forgot_password" style="color:blue;">forgot password?</a>
+                                class="text-decoration-none" href="{% url "password_reset" %}" style="color:blue;">forgot password?</a>
                         </p>
                     </div>
                 </div>
